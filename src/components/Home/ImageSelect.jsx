@@ -21,7 +21,7 @@ const ImageSelect = ({ type, setImage, handleClose }) => {
       <div className=" flex  justify-center items-start overflow-y-auto">
         <ImageList variant="masonry" cols={3} rowHeight={164}>
           {[type].map((type) =>
-            data.data()[type].map((item) => (
+            data?.data()[type].map((item) => (
               <img
                 src={item}
                 alt={type}

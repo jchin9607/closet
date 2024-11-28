@@ -9,9 +9,9 @@ import { auth } from "./firebase/firebase";
 import { Navigate } from "react-router-dom";
 import Landing from "./pages/Landing";
 import { createContext } from "react";
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, query } from "firebase/firestore";
 import { setDoc } from "firebase/firestore";
-
+import { useQueryClient } from "@tanstack/react-query";
 import { db } from "./firebase/firebase";
 const AuthContext = createContext();
 export { AuthContext };
@@ -20,9 +20,10 @@ import Saved from "./pages/Saved";
 import Footer from "./components/Footer";
 
 const App = () => {
+  const queryClient = useQueryClient();
   const [user, loading, error] = useAuthState(auth);
   const [isLoading, setIsLoading] = React.useState(true);
-
+  console.log(user);
   React.useEffect(() => {
     if (user != null && user?.uid) {
       const userRef = doc(db, "users", user.uid);
@@ -41,12 +42,13 @@ const App = () => {
               accs3: [],
               accs4: [],
               fits: [],
+            }).then(() => {
+              setIsLoading(false);
+              queryClient.invalidateQueries(["users", user.uid]);
             });
           }
         })
-        .finally(() => {
-          setIsLoading(false);
-        })
+
         .catch((error) => console.log(error));
     } else {
       setIsLoading(false);

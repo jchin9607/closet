@@ -2,9 +2,12 @@ import React from "react";
 import Clothes from "../components/Home/Clothes";
 import Accs from "../components/Home/Accs";
 import ControlBar from "../components/Home/ControlBar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import { useQueryClient } from "@tanstack/react-query";
 
 const Home = () => {
+  const queryClient = useQueryClient();
   const [influence, setInfluence] = useState(0);
   const [randomized, setRandomized] = useState(0);
   const draftFit = {
@@ -17,6 +20,10 @@ const Home = () => {
     accs3: null,
     accs4: null,
   };
+
+  useEffect(() => {
+    queryClient.invalidateQueries(["users"]);
+  });
 
   localStorage.setItem("draftFit", JSON.stringify(draftFit));
 
