@@ -23,7 +23,6 @@ const App = () => {
   const queryClient = useQueryClient();
   const [user, loading, error] = useAuthState(auth);
   const [isLoading, setIsLoading] = React.useState(true);
-  console.log(user);
   React.useEffect(() => {
     if (user != null && user?.uid) {
       const userRef = doc(db, "users", user.uid);

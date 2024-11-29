@@ -15,7 +15,6 @@ const Navbar = () => {
 
   useEffect(() => {
     setCurrentPage(location.pathname);
-    console.log(location.pathname);
   }, [location.pathname]);
 
   if (!user) {
